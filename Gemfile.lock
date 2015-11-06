@@ -28,10 +28,6 @@ GEM
       lita (>= 2.6)
     lita-chuck_norris (0.0.1)
       lita (>= 3.0)
-    lita-google-images (2.0.0)
-      lita (>= 4.0)
-    lita-karma (3.0.2)
-      lita (>= 4.0)
     lita-slack (1.7.1)
       eventmachine
       faraday
@@ -60,8 +56,6 @@ DEPENDENCIES
   lita
   lita-catgif
   lita-chuck_norris
-  lita-google-images
-  lita-karma
   lita-slack
 
 BUNDLED WITH
