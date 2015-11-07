@@ -2,7 +2,8 @@ module Lita
   module Handlers
     class Todo < Handler
       config :server
-      route(/^remind plz$/, :index, command: true, help: {"/list" => "List all todos."})
+      route(/^remind plz$/, :index, command: true, help: {"remind plz" => "List all todos."})
+      route(/^create\s(.+)$/, :create, command: true, help: {"create" => "create TODO"})
 
       def index(response)
         todos = parse get("#{config.server}/todos.json")
@@ -17,10 +18,24 @@ module Lita
         end
       end
 
+      def create(response)
+        todo = response.match_data[1]
+        result = post "#{config.server}/todos.json", {'todo[title]' => todo, 'todo[due]' => Date.today }
+        if result.code.to_i.success?
+          response.reply("#{todo} was created")
+        else
+          response.reply()
+        end
+      end
+
       private
 
       def get(url)
         Net::HTTP.get make_uri(url)
+      end
+
+      def post(url, data = {})
+        Net::HTTP.post_form(make_uri(url), data)
       end
 
       def parse(obj)
@@ -35,3 +50,8 @@ module Lita
   end
 end
 
+class Numeric
+  def success?
+    self > 199 && self < 300
+  end
+end
