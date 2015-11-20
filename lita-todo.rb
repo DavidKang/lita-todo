@@ -3,7 +3,7 @@ module Lita
     class Todo < Handler
       config :server
       route(/^remind plz$/, :index, command: true, help: {"remind plz" => "List all todos."})
-      route(/^pending plz$/, :pending, command: true, help: {"pending plz" => "List pending todos."})
+      route(/^remind done plz$/, :remind_done, command: true, help: {"pending plz" => "List pending todos."})
       route(/^create\s(.+)$/, :create, command: true, help: {"create" => "create TODO"})
       route(/^today\s(.+)$/, :today, command: true, help: {"create" => "list today TODO"})
       route(/^done\s(.+)$/, :done, command: true, help: { "done TODO_ID" => "Marks todo with the specified number as done." })
@@ -21,6 +21,20 @@ module Lita
           response.reply(todo)
         else
           response.reply('You have done all the todos! Good job!')
+        end
+      end
+
+      def remind_done(response)
+        todos = parse get("#{config.server}/done_todos.json")
+        if todos.any?
+          todo = ["```"]
+          todo << 'Your pending todos:'
+          todos.map { |t| todo << "##{t['id']}: #{t['due']} - #{t['title']}" }
+          todo << "```"
+          todo = todo.join("\n")
+          response.reply(todo)
+        else
+          response.reply("You don't have finished todos! :(")
         end
       end
 
