@@ -14,7 +14,7 @@ module Lita
         todos = parse get("#{config.server}/todos.json")
         if todos.any?
           todo = ["```"]
-          todo << 'Your todos:'
+          todo << 'Your pending todos:'
           todos.map { |t| todo << "##{t['id']}: #{t['due']} - #{t['title']}" }
           todo << "```"
           todo = todo.join("\n")
@@ -28,7 +28,7 @@ module Lita
         todos = parse get("#{config.server}/done_todos.json")
         if todos.any?
           todo = ["```"]
-          todo << 'Your pending todos:'
+          todo << 'Your finished todos:'
           todos.map { |t| todo << "##{t['id']}: #{t['due']} - #{t['title']}" }
           todo << "```"
           todo = todo.join("\n")
