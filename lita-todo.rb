@@ -35,6 +35,26 @@ module Lita
         end
       end
 
+      def done(response)
+        todo = response.match_data[1]
+        result = post "#{config.server}/todo/#{todo}/done.json"
+        if result.code.to_i.success?
+          response.reply("##{todo} was done")
+        else
+          #TODO
+        end
+      end
+
+      def reopen(response)
+        todo = response.match_data[1]
+        result = post "#{config.server}/todo/#{todo}/reopen.json"
+        if result.code.to_i.success?
+          response.reply("##{todo} was opened, AGAIN!!!")
+        else
+          #TODO
+        end
+      end
+
       def update_state(response)
         todo = response.match_data[1].split()
         result = put "#{config.server}/todos/#{todo[0]}/edit.json", { 'todo[status]' => todo[1] }
