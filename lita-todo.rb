@@ -5,9 +5,9 @@ module Lita
       route(/^remind plz$/, :index, command: true, help: {"remind plz" => "List all todos."})
       route(/^remind done plz$/, :remind_done, command: true, help: {"pending plz" => "List pending todos."})
       route(/^create\s(.+)$/, :create, command: true, help: {"create" => "create TODO"})
-      route(/^today\s(.+)$/, :today, command: true, help: {"create" => "list today TODO"})
+      route(/^today\s(.+)$/, :today, command: true, help: {"today" => "list today TODO"})
       route(/^done\s(.+)$/, :done, command: true, help: { "done TODO_ID" => "Marks todo with the specified number as done." })
-      route(/^reopen\s(.+)$/, :reopen, command: true, help: { "done TODO_ID" => "Marks todo with the specified number as done." })
+      route(/^reopen\s(.+)$/, :reopen, command: true, help: { "reopen TODO_ID" => "Marks todo with the specified number as pending." })
       route(/^\s(.+)$/, :done, command: true, help: { "done TODO_ID" => "Marks todo with the specified number as done." })
 
       def index(response)
@@ -39,9 +39,14 @@ module Lita
       end
 
       def create(response)
-        todo = response.match_data[1]
-        todo = Hash[*todo.split('##').map { |a| a.gsub(/^([a-z]+):/,"todo[\\1]:").split(':') }.flatten]
-        result = post "#{config.server}/todos.json", todo
+        require 'yaml'
+        todo = "{#{response.match_data[1]}}"
+        STDERR.puts "todo: #{todo}"
+        todo = YAML.load(todo)
+        # TODO Mejorar esto (Hay que poner las keys como todo[:nombre])
+        new_todo = {}
+        todo.each {|k,v| new_todo["todo[#{k}]"] = v}
+        result = post "#{config.server}/todos.json", new_todo
         if result.code.to_i.success?
           response.reply("#{todo} was created")
         else
