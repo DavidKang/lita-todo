@@ -15,7 +15,7 @@ module Lita
         if todos.any?
           todo = ["```"]
           todo << 'Your pending todos:'
-          todos.map { |t| todo << "##{t['id']}: #{t['due']} - #{t['title']}" }
+          todos.map { |t| todo << "##{t['id']}: #{t['due']} - #{t['project']} - #{t['title']}" }
           todo << "```"
           todo = todo.join("\n")
           response.reply(todo)
@@ -29,7 +29,7 @@ module Lita
         if todos.any?
           todo = ["```"]
           todo << 'Your finished todos:'
-          todos.map { |t| todo << "##{t['id']}: #{t['due']} - #{t['title']}" }
+          todos.map { |t| todo << "##{t['id']}: #{t['due']} - #{t['project']} - #{t['title']}" }
           todo << "```"
           todo = todo.join("\n")
           response.reply(todo)
