@@ -7,9 +7,9 @@ module Lita
       route(/^create\s(.+)$/, :create, command: true, help: {"create" => "create TODO"})
       route(/^(title:\s.+)$/, :create, command: true, help: {"create" => "create TODO"})
       route(/^today\s(.+)$/, :today, command: true, help: {"today" => "list today TODO"})
-      route(/^done\s(.+)$/, :done, command: true, help: { "done TODO_ID" => "Marks todo with the specified number as done." })
-      route(/^reopen\s(.+)$/, :reopen, command: true, help: { "reopen TODO_ID" => "Marks todo with the specified number as pending." })
-      route(/^\s(.+)$/, :done, command: true, help: { "done TODO_ID" => "Marks todo with the specified number as done." })
+      route(/^done\s(\d+)$/, :done, command: true, help: { "done TODO_ID" => "Marks todo with the specified number as done." })
+      route(/^reopen\s(\d+)$/, :reopen, command: true, help: { "reopen TODO_ID" => "Marks todo with the specified number as pending." })
+      route(/^#(\d+)$/, :done, command: true, help: { "done TODO_ID" => "Marks todo with the specified number as done." })
 
       def index(response)
         todos = parse get("#{config.server}/todos.json")
