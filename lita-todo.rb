@@ -4,11 +4,12 @@ module Lita
       config :server
       route(/^remind plz$/, :index, command: true, help: {"remind plz" => "List all todos."})
       route(/^remind done plz$/, :remind_done, command: true, help: {"pending plz" => "List pending todos."})
-      route(/^create\s(.+)$/, :create, command: true, help: {"create" => "create TODO"})
+      route(/^create\s(.+)$/, :create, command: true, help: {"create TODO" => "Create a todo: Ej:/ create title: lorens, due: tomorrow, project: alpha"})
+      route(/^(title:\s.+)$/, :create, command: true, help: {"create TODO" => "Create a todo: Ej:/ title: lorens, due: tomorrow, project: alpha"})
       route(/^today\s(.+)$/, :today, command: true, help: {"today" => "list today TODO"})
-      route(/^done\s(.+)$/, :done, command: true, help: { "done TODO_ID" => "Marks todo with the specified number as done." })
-      route(/^reopen\s(.+)$/, :reopen, command: true, help: { "reopen TODO_ID" => "Marks todo with the specified number as pending." })
-      route(/^\s(.+)$/, :done, command: true, help: { "done TODO_ID" => "Marks todo with the specified number as done." })
+      route(/^done\s(\d)$/, :done, command: true, help: { "done TODO_ID" => "Marks todo with the specified number as done." })
+      route(/^#(\d)$/, :done, command: true, help: { "#TODO_ID" => "Marks todo with the specified number as done." })
+      route(/^reopen\s(\d)$/, :reopen, command: true, help: { "reopen TODO_ID" => "Reopen todo with the specified number." })
 
       def index(response)
         todos = parse get("#{config.server}/todos.json")
