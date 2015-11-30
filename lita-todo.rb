@@ -5,6 +5,7 @@ module Lita
       route(/^remind plz$/, :index, command: true, help: {"remind plz" => "List all todos."})
       route(/^remind done plz$/, :remind_done, command: true, help: {"pending plz" => "List pending todos."})
       route(/^create\s(.+)$/, :create, command: true, help: {"create" => "create TODO"})
+      route(/^(title:\s.+)$/, :create, command: true, help: {"create" => "create TODO"})
       route(/^today\s(.+)$/, :today, command: true, help: {"today" => "list today TODO"})
       route(/^done\s(.+)$/, :done, command: true, help: { "done TODO_ID" => "Marks todo with the specified number as done." })
       route(/^reopen\s(.+)$/, :reopen, command: true, help: { "reopen TODO_ID" => "Marks todo with the specified number as pending." })
